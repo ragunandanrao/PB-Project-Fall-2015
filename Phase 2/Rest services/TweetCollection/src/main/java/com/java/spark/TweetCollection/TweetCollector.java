@@ -47,7 +47,7 @@ StringBuilder sb;
         	        sb.append(tweet + "\n");   
         }
         count++;
-        if(count>2)
+        if(count>10000)
         	
         	break;
         }
@@ -62,7 +62,7 @@ StringBuilder sb;
        finally
        { 
     	   try{
-    	   File tweetFile = new File("/home/nishit/Project/TweetFile.json");
+    	   File tweetFile = new File("/home/nishit/Project/Tweets/TweetSet.json");
            if(!tweetFile.exists())
            {
            	tweetFile.createNewFile();
