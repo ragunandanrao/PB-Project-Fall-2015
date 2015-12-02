@@ -1,0 +1,33 @@
+
+val sqlcontext = new org.apache.spark.sql.SQLContext(sc)
+
+
+val dashdata = sqlcontext.load("jdbc", Map(
+"url" -> "jdbc:db2://awh-yp-small03.services.dal.bluemix.net:50000/BLUDB:user=dash107180;password=1kz3IqNmAX63;",
+"dbtable" -> "DASH107180.ALLSTARS"))
+
+
+dashdata.registerTempTable("tweets")
+
+
+dashdata.printSchema
+
+dashdata.collect !!!
+
+
+val count1  =  sqlcontext.sql("select userDisplayName,max(userFollowersCount) as followers from tweets  GROUP by userDisplayName  order by followers desc limit  20 ")
+
+
+val count2  =  sqlcontext.sql("select smaSentiment,smaAuthorGender,count(*) as count1 from tweets  where smaAuthorGender in ('male','female') group by smaSentiment,smaAuthorGender order by smaAuthorGender")
+
+
+val count3 = sqlcontext.sql("select  distinct smaAuthorCountry, count(*) as TweetsC from tweets where userLanguage  in ('[en]') and smaAuthorCountry not in ('India','INDIA','india',null) group by smaAuthorCountry order by TweetsC desc")
+
+
+val count4= sqlcontext.sql("select smaSentiment, count (*) as TweetsCount from tweets group by smaSentiment")
+
+count12.saveAsParquetFile("swift://notebooks.spark/followers.parquet")
+
+
+
+
